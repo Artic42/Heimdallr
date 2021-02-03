@@ -6,7 +6,7 @@ There is avaible and script that takes a json file and fills up all the necessar
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
 Filename | SignalType | Description | User
-- | - | -| -
+-- | -- | -- | --
 true // false | Boolean | Value of the pin, two files true//false | Application
 edgeRead | Boolean | File used in edge mode to control the reading of the edge of a signal | Application
 mode | Character | An 8 bit number that sets the mode of the pin (see below) | Configuration
