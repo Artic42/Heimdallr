@@ -31,3 +31,4 @@ The mode is determined by a set of 8 bit, every bit activates a different functi
 * char GPIORead (int GPIO)
 * int GPIOReadFreq (int GPIO)
 * GPIOSetPWMValue (int GPIO, int dutyCycle)
+###GPIOSet (int GPIO)
