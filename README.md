@@ -1,10 +1,12 @@
 # RPI_Driver
 Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C.
+# Configurator
+There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
 Filename | SignalType | Description | User
----- | - | -| -
+- | - | -| -
 true // false | Boolean | Value of the pin, two files true//false | Application
 edgeRead | Boolean | File used in edge mode to control the reading of the edge of a signal | Application
 mode | Character | An 8 bit number that sets the mode of the pin (see below) | Configuration
@@ -12,8 +14,8 @@ Ton | Int | In tenths of second on delay for the signal | Configuration
 Toff | Int | In tenths of second off delay for the signal | Configuration
 Frequency | DInt | Frequency on PWM mode | Configuration
 dutyCycle | Int | Duty cycle for the PWM 0-1000 | Application
-EDGE | Boolean | File for the driver, edge mode active| Driver
-PWM | Boolean | File for the driver, edge mode active| Driver
+name | String | Name for the signal | Info
+description | String | Description text for the signal | Info
 ## Modes
 The mode is determined by a set of 8 bit, every bit activates a different functionality. Some functionalitys are not compatible with each other. This is the format of the bits X1234567.
 1. This bit determine if the pin is active or not
