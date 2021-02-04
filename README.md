@@ -64,25 +64,32 @@ This function changes the duty cycle of the PWM signal on the pin.
 This section describe the code of the driver program, the code is separated in multiple parts. One control the GPIO functions the rest control more advance options.
 ## GPIO
 The GPIO code separates in two, one code is only executed at the start of the program or when the configuration changes. This code is under the function _void GPIOconfigurate(void)_. There is also an infinite loop repeated every sampling sequence, this loop is compose by two functions _void readInputs(void)_ y _void writeOutputs(void)_. In this function the software goes through a list of all the active inputs and outputs, and sets the necessary values according to the files on the state folder.
-
+### Global variables
+Variable | Type | Description
+-- | -- | ---
+path | string | Path to the node directories
+firstInput | pointer to input |
+lastInput | pointer to input |
+firstOutput| pointer to output |
+lastOutput | pointer to output |
 ### Structures
-#### Inputs
+#### Input
 Variable | Type
 -- | --
 number | Character
 raisingEdge | Character
 fallingEdge | Character
 prvValue | Character
-nxt | pointer to inputs
-prv | pointer to inputs
-#### Outputs
+nxt | pointer to input
+prv | pointer to input
+#### Output
 Variables | Type
 -- | --
 number | Character
 PWM | Character
 PWMFrequency | Integer
-nxt | pointer to outputs
-prv | pointer to outputs
+nxt | pointer to output
+prv | pointer to output
 ### GPIOConfigurate
 This function will read the node 0 folder and create the neccesary structures. After doing this it will configure the hardware according to the needs on the file. It will be compose by various auxiliary smaller functions.
 * readPin (char GPIO)
@@ -100,7 +107,19 @@ This function will read the node 0 folder and create the neccesary structures. A
 * If input
   * Create input, setting flags according to mode
 #### deleteInputs
+* store in *_tempNextInput* the value of *firstInput*
+* while *_tempNextInput* not null
+  *store in *firstInput* the value of *_tmpNextInput.nxt*
+  *dealocate *_tempNextInput*
+  *store in *_tempNextInput* the value of *firstInput*
+* *lastInput* = null
 #### deleteOutputs
+* store in *_tempNextOutput* the value of *firstOutput*
+* while *_tempNextOutput* not null
+  *store in *firstOutput* the value of *_tmpNextOutput.nxt*
+  *dealocate *_tempNextOutput*
+  *store in *_tempNextOutput* the value of *firstOutput*
+* *lastOutput* = null
 #### createInput
 #### createOutput
 
