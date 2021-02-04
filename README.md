@@ -1,10 +1,11 @@
 # Heimdallr
-Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C.
+Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C/C++, Python and bash scripts. The system will also have the avaibility to use the pins of another Pi via ssh. Only one master can exist in each network and has to have acces to all the slaves.
 # Configurator
 There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
+Every pin in the system will have a directory in the file system, with the name pinXX. This directorie will be inside a node folder, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. If the raspberry is meant to be the master in the system then */temp/heimdallr/MASTER* will exist. The following files will exist in the pin folder.
 Filename | SignalType | Description | User
 -- | -- | -- | --
 TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
