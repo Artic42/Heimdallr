@@ -1,4 +1,4 @@
-# RPI_Driver
+# Heimdallr
 Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C.
 # Configurator
 There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system
