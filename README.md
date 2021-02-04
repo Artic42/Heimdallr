@@ -113,3 +113,13 @@ This function will read the node 0 folder and create the neccesary structures. A
     * Delete file TRUE
     
 ### writeOutputs
+* if PWM
+  * if pwm frquency in file and struct different
+    * change frequency
+  * write dutycycle from file into hardware
+* else
+  * if TRUE exists 
+     * write a HIGH
+  * else
+     * write a LOW
+
