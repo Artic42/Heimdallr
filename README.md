@@ -79,9 +79,17 @@ Variables | Type
 -- | --
 number | Character
 PWM | Character
+PWMFrequency | Integer
 nxt | pointer to outputs
 prv | pointer to outputs
 ### GPIOConfigurate
+This function will read the node 0 folder and create the neccesary structures. After doing this it will configure the hardware according to the needs on the file. It will be compose by various auxiliary smaller functions.
+* readPin (char GPIO)
+* createInput (char number, char rEdge, char fEdge)
+* createOutput (char numver, char PWM, int PWMFreq)
+#### readPin
+#### createInput
+#### createOutput
 
 ### readInputs
 
