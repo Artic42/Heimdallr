@@ -1,11 +1,25 @@
 # Heimdallr
 Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C/C++, Python and bash scripts. The system will also have the avaibility to use the pins of another Pi via ssh. Only one master can exist in each network and has to have acces to all the slaves.
+
+The system allow to attach other microcontrollers to the Pis via I2C. We call this component will be designated by peripherals. Firmwares for the processors and desings are avaible for the following peripherals.
+
+uProcessor | ID | Description
+-- | -- | --
+ATmega328P | 328-DD01 | 8 Digital input or ourtputs with pull up resistors
+ATmega328P | 328-AD01 | 6 Analogic inputs, 0-5 V 12 bits
+ATmega328P | 328-DA01 | 2 Analogic output, PWM with low pass filters attach, 2KHz freq
+ATmega328P | 328-PWM01 | 2 PWM outputs max freq 10KHz
+ATmega328P | 328-FC01 | 2 counter inputs, 1Hz - 10KHz reading cycle
+ATmega328P | 328-DSP01 | LCD display
+ATmega328P | 328-ROM01 | 2kB EEPROM memory
 # Configurator
 There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
 Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. If the raspberry is meant to be the master in the system then */temp/heimdallr/MASTER* will exist. The following files will exist in the pin folder.
+
+
 Filename | SignalType | Description | User
 -- | -- | -- | --
 TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
