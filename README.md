@@ -59,3 +59,15 @@ This function writes the value on the GPIO pin.
 This fucntion return a 1 if the pin was HIGH.
 #### GPIOSetPWMValue
 This function changes the duty cycle of the PWM signal on the pin.
+# Driver code
+This section describe the code of the driver program, the code is separated in multiple parts. One control the GPIO functions the rest control more advance options.
+## GPIO
+The GPIO code separates in two, one code is only executed at the start of the program or when the configuration changes. This code is under the function _void GPIOconfigurate(void)_. There is also an infinite loop repeated every sampling sequence, this loop is compose by two functions _void readInputs(void)_ y _void writeOutputs(void)_. In this function the software goes through a list of all the active inputs and outputs, and sets the necessary values according to the files on the state folder.
+
+### Structures
+
+### GPIOConfigurate
+
+### readInputs
+
+### writeOutputs
