@@ -11,8 +11,6 @@ Filename | SignalType | Description | User
 TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
 edgeRead | Boolean | File used in edge mode to control the reading of the edge of a signal | Application
 mode | Character | An 8 bit number that sets the mode of the pin (see below) | Configuration
-Ton | Int | In tenths of second on delay for the signal | Configuration
-Toff | Int | In tenths of second off delay for the signal | Configuration
 Frequency | DInt | Frequency on PWM mode | Configuration
 dutyCycle | Int | Duty cycle for the PWM 0-1000 | Application
 name | String | Name for the signal | Info
