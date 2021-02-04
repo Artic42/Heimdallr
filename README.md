@@ -41,12 +41,12 @@ Code | Binary | Mode
 ## API
 The methods of the different API are described here.
 ### C API Methods
-* GPIOSet (int GPIO)
-* GPIOReset (int GPIO)
-* GPIOToggle (int GPIO)
-* GPIOWrite (int GPIO, char value)
-* char GPIORead (int GPIO)
-* GPIOSetPWMValue (int GPIO, int dutyCycle)
+* GPIOSet (int node, int GPIO)
+* GPIOReset (int node, int GPIO)
+* GPIOToggle (int node, int GPIO)
+* GPIOWrite (int node, int GPIO, char value)
+* char GPIORead (int node, int GPIO)
+* GPIOSetPWMValue (int node, int GPIO, int dutyCycle)
 #### GPIOSet
 This function puts the GPIO pin to HIGH.
 #### GPIOReset
