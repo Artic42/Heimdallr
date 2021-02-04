@@ -7,7 +7,7 @@ This part of the program uses the basic funtions of the GPIOs, other parts will 
 ## File Structure
 Filename | SignalType | Description | User
 -- | -- | -- | --
-true // false | Boolean | Value of the pin, two files true//false | Application
+TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
 edgeRead | Boolean | File used in edge mode to control the reading of the edge of a signal | Application
 mode | Character | An 8 bit number that sets the mode of the pin (see below) | Configuration
 Ton | Int | In tenths of second on delay for the signal | Configuration
@@ -88,9 +88,28 @@ This function will read the node 0 folder and create the neccesary structures. A
 * createInput (char number, char rEdge, char fEdge)
 * createOutput (char numver, char PWM, int PWMFreq)
 #### readPin
+* Get path to node folder
+* Read value of mode, and store
+* Mask mode and check if active
+  * Return
+* Check if output
+  * Create output, setting flags according to mode
+* If input
+  * Create input, setting flags according to mode
 #### createInput
 #### createOutput
 
 ### readInputs
-
+* Read input value
+* If TRUE
+  * If rising edge mode and prv = FALSE
+    * Create file TRUE
+  * If not in edge mode
+    * Create file TRUE
+* else
+  * If falling edge mode and prv = TRUE
+    * Create file TRUE
+  * If not in edge mode
+    * Delete file TRUE
+    
 ### writeOutputs
