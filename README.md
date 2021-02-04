@@ -65,7 +65,22 @@ This section describe the code of the driver program, the code is separated in m
 The GPIO code separates in two, one code is only executed at the start of the program or when the configuration changes. This code is under the function _void GPIOconfigurate(void)_. There is also an infinite loop repeated every sampling sequence, this loop is compose by two functions _void readInputs(void)_ y _void writeOutputs(void)_. In this function the software goes through a list of all the active inputs and outputs, and sets the necessary values according to the files on the state folder.
 
 ### Structures
-
+#### Inputs
+Variable | Type
+-- | --
+number | Character
+raisingEdge | Character
+fallingEdge | Character
+prvValue | Character
+nxt | pointer to inputs
+prv | pointer to inputs
+#### Outputs
+Variables | Type
+-- | --
+number | Character
+PWM | Character
+nxt | pointer to outputs
+prv | pointer to outputs
 ### GPIOConfigurate
 
 ### readInputs
