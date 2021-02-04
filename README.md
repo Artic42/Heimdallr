@@ -5,7 +5,7 @@ There is avaible and script that takes a json file and fills up all the necessar
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
-Every pin in the system will have a directory in the file system, with the name pinXX. This directorie will be inside a node folder, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. If the raspberry is meant to be the master in the system then */temp/heimdallr/MASTER* will exist. The following files will exist in the pin folder.
+Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. If the raspberry is meant to be the master in the system then */temp/heimdallr/MASTER* will exist. The following files will exist in the pin folder.
 Filename | SignalType | Description | User
 -- | -- | -- | --
 TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
