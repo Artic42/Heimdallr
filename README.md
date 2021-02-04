@@ -121,16 +121,16 @@ This function will read the node 0 folder and create the neccesary structures. A
 #### deleteInputs
 * store in *_tempNextInput* the value of *firstInput*
 * while *_tempNextInput* not null
-  *store in *firstInput* the value of *_tmpNextInput.nxt*
-  *dealocate *_tempNextInput*
-  *store in *_tempNextInput* the value of *firstInput*
+  * store in *firstInput* the value of *_tmpNextInput.nxt*
+  * dealocate *_tempNextInput*
+  * store in *_tempNextInput* the value of *firstInput*
 * *lastInput* = null
 #### deleteOutputs
 * store in *_tempNextOutput* the value of *firstOutput*
 * while *_tempNextOutput* not null
-  *store in *firstOutput* the value of *_tmpNextOutput.nxt*
-  *dealocate *_tempNextOutput*
-  *store in *_tempNextOutput* the value of *firstOutput*
+  * store in *firstOutput* the value of *_tmpNextOutput.nxt*
+  * dealocate *_tempNextOutput*
+  * store in *_tempNextOutput* the value of *firstOutput*
 * *lastOutput* = null
 #### createInput
 #### createOutput
