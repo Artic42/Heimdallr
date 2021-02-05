@@ -13,10 +13,28 @@ ATmega328P | 328-FC01 | 2 counter inputs, 1Hz - 10KHz reading cycle
 ATmega328P | 328-DSP01 | LCD display
 ATmega328P | 328-ROM01 | 2kB EEPROM memory
 # Configurator
-There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general file will contain the following information.
+There is avaible and script that takes a few json files and fills up all the necessary folder on the Pi with the configuration for every pin, and every node in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general data is the same for all the system. The general file will contain the following information. 
 Parameter | Data type | Description | Default
 -- | -- | -- | --
 directoryPath | Path | Path to the directory were all the information will be store | /temp/heimdallr
+name | string | Name of the system
+description | string | Description of the system
+netAdress | IP | Ip adress of the master node in the system | empty
+configPath | Path | Path to the json file with the master configuration |
+nodes | array of nodes | There will be an array of nodes, with the data for every node | empty
+## IP data type
+Parameter | Data type | Description | Default
+-- | -- | -- | --
+adress | adress | The ip of the master node | empty
+subnetmask | adress | The subnet mask of the system network | 255.255.255.0
+## nodes data type
+Parameter | Data type | Description | Default
+-- | -- | -- | --
+number | integer | the number of the node 1 to 99 | 
+name | string | name of the node only for information |
+description | string | description of the node |
+netAdress | IP | IP adress of the node |
+configPath | Path | Path to the json file with the node configuration |
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
