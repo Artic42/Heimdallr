@@ -40,7 +40,6 @@ This part of the program uses the basic funtions of the GPIOs, other parts will 
 ## PINXX
 Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. The following files will exist in the pin folder.
 
-
 Filename | SignalType | Description | User
 -- | -- | -- | --
 TRUE | Boolean | Value of the pin, if the file exist the value is TRUE | Application
@@ -72,6 +71,9 @@ Code | Binary | Mode
 0x47 | 0b0100 0111 | Input mode, rising edge reading, pull up ressitor
 0x60 | 0b0110 0000 | Output mode, standard
 0x70 | 0b0111 0000 | Output mode, PWM
+## Master-Slave coms
+Two binary files exist inside the *NodeXX* folder in both the master and the slave. Each cycle the master copys the outputs files from master to slave and the inputs file from slave to master. This files will be treated to change the values of the necessary files in the *PINXX* by each of the nodes. 
+
 ## API
 The methods of the different API are described here.
 ### C API Methods
@@ -116,7 +118,7 @@ This section describe the code of the driver program, the code is separated in m
   * **readInputs**
   * **readNodes**
   * **writeOutputs**
-  * **writeOutputs**
+  * **writeNodes**
 ## Global variables
 Variable | Type | Description
 -- | -- | ---
