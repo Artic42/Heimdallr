@@ -1,4 +1,5 @@
 # Heimdallr
+
 Small program to drive, special hardware form Raspberry Pi. It allows for any other program to just have to modify a few files to drive all the function of GPIO. Initially there is an API avaible on C/C++, Python and bash scripts. The system will also have the avaibility to use the pins of another Pi via ssh. Only one master can exist in each network and has to have acces to all the slaves.
 
 The system allow to attach other microcontrollers to the Pis via I2C. We call this component will be designated by peripherals. Firmwares for the processors and desings are avaible for the following peripherals.
@@ -12,8 +13,10 @@ ATmega328P | 328-PWM01 | 2 PWM outputs max freq 10KHz
 ATmega328P | 328-FC01 | 2 counter inputs, 1Hz - 10KHz reading cycle
 ATmega328P | 328-DSP01 | LCD display
 ATmega328P | 328-ROM01 | 2kB EEPROM memory
-# Configurator
-There is avaible and script that takes a few json files and fills up all the necessary folder on the Pi with the configuration for every pin, and every node in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general data is the same for all the system. The general file will contain the following information. 
+
+## Configurator
+
+There is avaible and script that takes a few json files and fills up all the necessary folder on the Pi with the configuration for every pin, and every node in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general data is the same for all the system. The general file will contain the following information.
 Parameter | Data type | Description | Default
 -- | -- | -- | --
 directoryPath | Path | Path to the directory were all the information will be store | /temp/heimdallr
@@ -22,22 +25,30 @@ description | string | Description of the system
 netAdress | IP | Ip adress of the master node in the system | empty
 configPath | Path | Path to the json file with the master configuration |
 nodes | array of nodes | There will be an array of nodes, with the data for every node | empty
-## IP data type
+
+### IP data type
+
 Parameter | Data type | Description | Default
 -- | -- | -- | --
 adress | adress | The ip of the master node | empty
 subnetmask | adress | The subnet mask of the system network | 255.255.255.0
-## nodes data type
+
+### nodes data type
+
 Parameter | Data type | Description | Default
 -- | -- | -- | --
-number | integer | the number of the node 1 to 99 | 
+number | integer | the number of the node 1 to 99 |
 name | string | name of the node only for information |
 description | string | description of the node |
 netAdress | IP | IP adress of the node |
 configPath | Path | Path to the json file with the node configuration |
-# File Structure
+
+## File Structure
+
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
-## PINXX
+
+### PINXX
+
 Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. The following files will exist in the pin folder.
 
 Filename | SignalType | Description | User
@@ -49,8 +60,11 @@ Frequency | DInt | Frequency on PWM mode | Configuration
 dutyCycle | Int | Duty cycle for the PWM 0-1000 | Application
 name | String | Name for the signal | Info
 description | String | Description text for the signal | Info
-## Modes
+
+### Modes
+
 The mode is determined by a set of 8 bit, every bit activates a different functionality. Some functionalitys are not compatible with each other. This is the format of the bits X1234567.
+
 1. This bit determine if the pin is active or not
 2. This bit determine if the pin is in output or input mode, output = 1.
 3. This bit activates the PWM mode when working as an output.
@@ -58,7 +72,9 @@ The mode is determined by a set of 8 bit, every bit activates a different functi
 5. This bit determines if the input is in edge mode. In edge mode the input will only read as one in either the falling or raising edge.
 6. This bit determines the edge mode. Raising = 1 and falling = 0.
 7. This bit determines the resistor mode if using it as an input. The resistor will be on pull up mode if the bit is 1. In pull down if 0.
+
 #### Valid modes
+
 Only the following modes are considered legal
 Code | Binary | Mode
 --- | --- | ----
@@ -71,12 +87,17 @@ Code | Binary | Mode
 0x47 | 0b0100 0111 | Input mode, rising edge reading, pull up ressitor
 0x60 | 0b0110 0000 | Output mode, standard
 0x70 | 0b0111 0000 | Output mode, PWM
-## Master-Slave coms
-Two binary files exist inside the *NodeXX* folder in both the master and the slave. Each cycle the master copys the outputs files from master to slave and the inputs file from slave to master. This files will be treated to change the values of the necessary files in the *PINXX* by each of the nodes. 
 
-## API
+### Master-Slave coms
+
+Two binary files exist inside the *NodeXX* folder in both the master and the slave. Each cycle the master copys the outputs files from master to slave and the inputs file from slave to master. This files will be treated to change the values of the necessary files in the *PINXX* by each of the nodes.
+
+### API
+
 The methods of the different API are described here.
-### C API Methods
+
+#### C API Methods
+
 * GPIOSet (int node, int GPIO)
 * GPIOReset (int node, int GPIO)
 * GPIOToggle (int node, int GPIO)
@@ -84,29 +105,45 @@ The methods of the different API are described here.
 * char GPIORead (int node, int GPIO)
 * GPIOSetPWMDutyCycle (int node, int GPIO, int dutyCycle)
 * GPIOSetPWMFrequency (int node, int GPIO, int dutyCycle)
-#### GPIOSet
+
+##### GPIOSet
+
 This function puts the GPIO pin to HIGH.
-#### GPIOReset
+
+##### GPIOReset
+
 This function puts the GPIO pin to LOW.
-#### GPIOToggle
+
+##### GPIOToggle
+
 This function toggles the GPIO pin.
-#### GPIOWrite
+
+##### GPIOWrite
+
 This function writes the value on the GPIO pin.
-#### char GPIORead
+
+##### char GPIORead
+
 This fucntion return a 1 if the pin was HIGH.
-#### GPIOSetPWMValue
+
+##### GPIOSetPWMValue
+
 This function changes the duty cycle of the PWM signal on the pin.
-# Driver code
+
+## Driver code
+
 This section describe the code of the driver program, the code is separated in multiple parts. One control the GPIO functions the rest control more advance options. The code is separated into the following files.
+
 * GPIO.c
 * I2C.c
 * SPI.c
 * Nodes.c
 
-## main
+### main
+
 * read path
 * if *$PATH/MASTER*
-   * **nodesConfigurate**
+  * **nodesConfigurate**
 * **GPIOConfigurate**
 * while *$PATH/KILL* doesn't exist
   * if *$PATH/SLAVE*
@@ -119,7 +156,9 @@ This section describe the code of the driver program, the code is separated in m
   * **readNodes**
   * **writeOutputs**
   * **writeNodes**
-## Global variables
+
+### Global variables
+
 Variable | Type | Description
 -- | -- | ---
 path | string | Path to the node directories
@@ -128,10 +167,12 @@ lastInput | pointer to input |
 firstOutput| pointer to output |
 lastOutput | pointer to output |
 
-## GPIO
+### GPIO
+
 In this file all the function necessary to handle the GPIO of the board will be avaible, main function will call to the differente functions.
 
 The file has the following function in it.
+
 * GPIOConfigurate (void)
 * readPin (char GPIO)
 * deleteInputs (void)
@@ -141,8 +182,10 @@ The file has the following function in it.
 * readInputs (void)
 * readOutputs (void)
 
-### Structures
-#### Input
+#### Structures
+
+##### Input
+
 Variable | Type
 -- | --
 number | Character
@@ -152,14 +195,18 @@ pullUpResistor | Character
 pullDownResistor | Character
 prvValue | Character
 nxt | pointer to input
-#### Output
+
+##### Output
+
 Variables | Type
 -- | --
 number | Character
 PWM | Character
 PWMFrequency | Integer
 nxt | pointer to output
-### GPIOConfigurate
+
+#### GPIOConfigurate
+
 This function will read the node 0 folder and create the neccesary structures. After doing this it will configure the hardware according to the needs on the file. It will be compose by various auxiliary smaller functions.
 
 * **deleteInputs()**
@@ -167,8 +214,11 @@ This function will read the node 0 folder and create the neccesary structures. A
 * for i in 2-32
   * **readPin(i)**
   * delete configuration command
-### readPin
+
+#### readPin
+
 Read mode file and creates the necessary structures
+
 * Get path to pin folder
 * Read value of mode, and store
 * Mask mode and check if active
@@ -177,24 +227,33 @@ Read mode file and creates the necessary structures
   * **createOutput**, setting flags according to mode
 * If input
   * **createInput**, setting flags according to mode
-### deleteInputs
+
+#### deleteInputs
+
 Deletes all Input structures allowing to create new ones
+
 * store in *_tempNextInput* the value of *firstInput*
 * while *_tempNextInput* not null
   * store in *firstInput* the value of *_tmpNextInput.nxt*
   * dealocate *_tempNextInput*
   * store in *_tempNextInput* the value of *firstInput*
 * *lastInput* = null
-### deleteOutputs
+
+#### deleteOutputs
+
 Deletes all output structures
+
 * store in *_tempNextOutput* the value of *firstOutput*
 * while *_tempNextOutput* not null
   * store in *firstOutput* the value of *_tmpNextOutput.nxt*
   * dealocate *_tempNextOutput*
   * store in *_tempNextOutput* the value of *firstOutput*
 * *lastOutput* = null
-### createInput
+
+#### createInput
+
 Creates one input structure and configures the hardware appropietly
+
 * if firstInput == null
   * allocate input and store pointer in *firstInput* and *lastInput*
 * else
@@ -204,8 +263,11 @@ Creates one input structure and configures the hardware appropietly
 * *lastInput.fallingEdge* = *fallingEdge*
 * *lastInput.pullUpResistor* = *pullUp*
 * *lastInput.pullDownResistor* = *pullDown*
-### createOutput
+
+#### createOutput
+
 Creates one output structure and configures the hardware appropietly
+
 * if firstOutput == null
   * allocate output and store pointer in *firstOutput* and *lastOutput*
 * else
@@ -213,7 +275,9 @@ Creates one output structure and configures the hardware appropietly
   * sotre pointer in *lastOutput*
 * *lastOutput.PWM* = *PWM*
 * *lastOutput.PWMFrequency* = *PWMFrequency*
-### readInputs
+
+#### readInputs
+
 * Read input value
 * If TRUE
   * If rising edge mode and prv = FALSE
@@ -225,15 +289,17 @@ Creates one output structure and configures the hardware appropietly
     * Create file TRUE
   * If not in edge mode
     * Delete file TRUE  
-### writeOutputs
+
+#### writeOutputs
+
 * if PWM
   * if pwm frquency in file and struct different
     * change frequency
   * write dutycycle from file into hardware
 * else
-  * if TRUE exists 
-     * write a HIGH
+  * if TRUE exists
+    * write a HIGH
   * else
-     * write a LOW
-## nodes
+    * write a LOW
 
+### nodes
