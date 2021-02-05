@@ -13,7 +13,10 @@ ATmega328P | 328-FC01 | 2 counter inputs, 1Hz - 10KHz reading cycle
 ATmega328P | 328-DSP01 | LCD display
 ATmega328P | 328-ROM01 | 2kB EEPROM memory
 # Configurator
-There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system
+There is avaible and script that takes a json file and fills up all the necessary folder on the Pi with the configuration for every pin in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general file will contain the following information.
+Parameter | Data type | Description | Default
+-- | -- | -- | --
+directoryPath | Path | Path to the directory were all the information will be store | /temp/heimdallr
 # GPIO
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
 ## File Structure
@@ -93,7 +96,6 @@ raisingEdge | Character
 fallingEdge | Character
 prvValue | Character
 nxt | pointer to input
-prv | pointer to input
 #### Output
 Variables | Type
 -- | --
@@ -101,14 +103,13 @@ number | Character
 PWM | Character
 PWMFrequency | Integer
 nxt | pointer to output
-prv | pointer to output
 ### GPIOConfigurate
 This function will read the node 0 folder and create the neccesary structures. After doing this it will configure the hardware according to the needs on the file. It will be compose by various auxiliary smaller functions.
 * readPin (char GPIO)
 * deleteInputs (void)
 * deleteOutputs (void)
-* createInput (char number, char rEdge, char fEdge)
-* createOutput (char numver, char PWM, int PWMFreq)
+* createInput (char number, char risingEdge, char fallingEdge)
+* createOutput (char numver, char PWM, int PWMFrequency)
 #### readPin
 * Get path to node folder
 * Read value of mode, and store
@@ -133,8 +134,21 @@ This function will read the node 0 folder and create the neccesary structures. A
   * store in *_tempNextOutput* the value of *firstOutput*
 * *lastOutput* = null
 #### createInput
+* if firstInput == null
+  * allocate input and store pointer in *firstInput* and *lastInput*
+* else
+  * allocate input and store pointer in *lastInput.nxt*
+  * sotre pointer in *lastInput*
+* *lastInput.risingEdge* = *risingEdge*
+* *lastInput.fallingEdge* = *fallingEdge*
 #### createOutput
-
+* if firstOutput == null
+  * allocate output and store pointer in *firstOutput* and *lastOutput*
+* else
+  * allocate output and store pointer in *lastOutput.nxt*
+  * sotre pointer in *lastOutput*
+* *lastOutput.PWM* = *PWM*
+* *lastOutput.PWMFrequency* = *PWMFrequency*
 ### readInputs
 * Read input value
 * If TRUE
