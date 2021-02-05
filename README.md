@@ -94,10 +94,21 @@ This fucntion return a 1 if the pin was HIGH.
 #### GPIOSetPWMValue
 This function changes the duty cycle of the PWM signal on the pin.
 # Driver code
-This section describe the code of the driver program, the code is separated in multiple parts. One control the GPIO functions the rest control more advance options.
-## GPIO
-The GPIO code separates in two, one code is only executed at the start of the program or when the configuration changes. This code is under the function _void GPIOconfigurate(void)_. There is also an infinite loop repeated every sampling sequence, this loop is compose by two functions _void readInputs(void)_ y _void writeOutputs(void)_. In this function the software goes through a list of all the active inputs and outputs, and sets the necessary values according to the files on the state folder.
-### Global variables
+This section describe the code of the driver program, the code is separated in multiple parts. One control the GPIO functions the rest control more advance options. The code is separated into the following files.
+* GPIO.c
+* I2C.c
+* SPI.c
+* Nodes.c
+
+## main
+* read path
+* GPIOConfigurate
+* while *$PATH/KILL* doesn't exist
+  * if *$PATH/RECONFIGURATE*
+    * **GPIOConfigurate**
+  * **readInputs**
+  * **writeOutputs**
+## Global variables
 Variable | Type | Description
 -- | -- | ---
 path | string | Path to the node directories
@@ -105,6 +116,20 @@ firstInput | pointer to input |
 lastInput | pointer to input |
 firstOutput| pointer to output |
 lastOutput | pointer to output |
+
+## GPIO
+In this file all the function necessary to handle the GPIO of the board will be avaible, main function will call to the differente functions.
+
+The file has the following function in it.
+* GPIOConfigurate (void)
+* readPin (char GPIO)
+* deleteInputs (void)
+* deleteOutputs (void)
+* createInput (char number, char risingEdge, char fallingEdge, char pullUp, char pullDown)
+* createOutput (char numver, char PWM, int PWMFrequency)
+* readInputs (void)
+* readOutputs (void)
+
 ### Structures
 #### Input
 Variable | Type
@@ -112,6 +137,8 @@ Variable | Type
 number | Character
 raisingEdge | Character
 fallingEdge | Character
+pullUpResistor | Character
+pullDownResistor | Character
 prvValue | Character
 nxt | pointer to input
 #### Output
@@ -123,35 +150,40 @@ PWMFrequency | Integer
 nxt | pointer to output
 ### GPIOConfigurate
 This function will read the node 0 folder and create the neccesary structures. After doing this it will configure the hardware according to the needs on the file. It will be compose by various auxiliary smaller functions.
-* readPin (char GPIO)
-* deleteInputs (void)
-* deleteOutputs (void)
-* createInput (char number, char risingEdge, char fallingEdge)
-* createOutput (char numver, char PWM, int PWMFrequency)
-#### readPin
-* Get path to node folder
+
+* **deleteInputs()**
+* **deleteOutputs()**
+* for i in 2-32
+  * **readPin(i)**
+  * delete configuration command
+### readPin
+Read mode file and creates the necessary structures
+* Get path to pin folder
 * Read value of mode, and store
 * Mask mode and check if active
   * Return
 * Check if output
-  * Create output, setting flags according to mode
+  * **createOutput**, setting flags according to mode
 * If input
-  * Create input, setting flags according to mode
-#### deleteInputs
+  * **createInput**, setting flags according to mode
+### deleteInputs
+Deletes all Input structures allowing to create new ones
 * store in *_tempNextInput* the value of *firstInput*
 * while *_tempNextInput* not null
   * store in *firstInput* the value of *_tmpNextInput.nxt*
   * dealocate *_tempNextInput*
   * store in *_tempNextInput* the value of *firstInput*
 * *lastInput* = null
-#### deleteOutputs
+### deleteOutputs
+Deletes all output structures
 * store in *_tempNextOutput* the value of *firstOutput*
 * while *_tempNextOutput* not null
   * store in *firstOutput* the value of *_tmpNextOutput.nxt*
   * dealocate *_tempNextOutput*
   * store in *_tempNextOutput* the value of *firstOutput*
 * *lastOutput* = null
-#### createInput
+### createInput
+Creates one input structure and configures the hardware appropietly
 * if firstInput == null
   * allocate input and store pointer in *firstInput* and *lastInput*
 * else
@@ -159,7 +191,10 @@ This function will read the node 0 folder and create the neccesary structures. A
   * sotre pointer in *lastInput*
 * *lastInput.risingEdge* = *risingEdge*
 * *lastInput.fallingEdge* = *fallingEdge*
-#### createOutput
+* *lastInput.pullUpResistor* = *pullUp*
+* *lastInput.pullDownResistor* = *pullDown*
+### createOutput
+Creates one output structure and configures the hardware appropietly
 * if firstOutput == null
   * allocate output and store pointer in *firstOutput* and *lastOutput*
 * else
@@ -178,8 +213,7 @@ This function will read the node 0 folder and create the neccesary structures. A
   * If falling edge mode and prv = TRUE
     * Create file TRUE
   * If not in edge mode
-    * Delete file TRUE
-    
+    * Delete file TRUE  
 ### writeOutputs
 * if PWM
   * if pwm frquency in file and struct different
