@@ -35,10 +35,10 @@ name | string | name of the node only for information |
 description | string | description of the node |
 netAdress | IP | IP adress of the node |
 configPath | Path | Path to the json file with the node configuration |
-# GPIO
+# File Structure
 This part of the program uses the basic funtions of the GPIOs, other parts will use the comuniction buses and other special functions
-## File Structure
-Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. If the raspberry is meant to be the master in the system then */temp/heimdallr/MASTER* will exist. The following files will exist in the pin folder.
+## PINXX
+Every pin in the system will have a directory in the file system, with the name pinXX. This directory will be inside a node directory, each node represent a different processor, *node00* is always the pi were is executing. All the nodes will be on the folder */temp/heimdallr*. The following files will exist in the pin folder.
 
 
 Filename | SignalType | Description | User
@@ -102,11 +102,19 @@ This section describe the code of the driver program, the code is separated in m
 
 ## main
 * read path
-* GPIOConfigurate
+* if *$PATH/MASTER*
+   * **nodesConfigurate**
+* **GPIOConfigurate**
 * while *$PATH/KILL* doesn't exist
+  * if *$PATH/SLAVE*
+    * **readMasterData*
   * if *$PATH/RECONFIGURATE*
+    * if *$PATH/MASTER*
+      * **nodesConfigurate**
     * **GPIOConfigurate**
   * **readInputs**
+  * **readNodes**
+  * **writeOutputs**
   * **writeOutputs**
 ## Global variables
 Variable | Type | Description
