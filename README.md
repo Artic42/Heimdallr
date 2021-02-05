@@ -80,7 +80,8 @@ The methods of the different API are described here.
 * GPIOToggle (int node, int GPIO)
 * GPIOWrite (int node, int GPIO, char value)
 * char GPIORead (int node, int GPIO)
-* GPIOSetPWMValue (int node, int GPIO, int dutyCycle)
+* GPIOSetPWMDutyCycle (int node, int GPIO, int dutyCycle)
+* GPIOSetPWMFrequency (int node, int GPIO, int dutyCycle)
 #### GPIOSet
 This function puts the GPIO pin to HIGH.
 #### GPIOReset
@@ -232,4 +233,5 @@ Creates one output structure and configures the hardware appropietly
      * write a HIGH
   * else
      * write a LOW
+## nodes
 
