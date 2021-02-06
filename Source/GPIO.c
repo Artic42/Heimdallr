@@ -11,8 +11,8 @@ Testd on:    Raspberry Pi 4
 *	Include                             *
 ****************************************/
 
-#include <GPIO.h>
-#include <Artic42.h>
+#include "GPIO.h"
+#include "Artic42.h"
 
 /****************************************
 *	Private Function Prtotype           *
