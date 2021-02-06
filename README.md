@@ -101,8 +101,8 @@ The methods of the different API are described here.
 * GPIOSet (int node, int GPIO)
 * GPIOReset (int node, int GPIO)
 * GPIOToggle (int node, int GPIO)
-* GPIOWrite (int node, int GPIO, char value)
-* char GPIORead (int node, int GPIO)
+* GPIOWrite (int node, int GPIO, bool value)
+* bool GPIORead (int node, int GPIO)
 * GPIOSetPWMDutyCycle (int node, int GPIO, int dutyCycle)
 * GPIOSetPWMFrequency (int node, int GPIO, int dutyCycle)
 
@@ -173,14 +173,18 @@ In this file all the function necessary to handle the GPIO of the board will be 
 
 The file has the following function in it.
 
-* GPIOConfigurate (void)
-* readPin (char GPIO)
-* deleteInputs (void)
-* deleteOutputs (void)
-* createInput (char number, char risingEdge, char fallingEdge, char pullUp, char pullDown)
-* createOutput (char numver, char PWM, int PWMFrequency)
-* readInputs (void)
-* readOutputs (void)
+* Public
+  * GPIOConfigurate (void)
+  * writeOutputs (char GPIO)
+  * readInputs (char GPIO)
+* Private
+  * readPin (char GPIO)
+  * deleteInputs (void)
+  * deleteOutputs (void)
+  * createInput (char number, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown)
+  * createOutput (char numver, bool PWM, int PWMFrequency)
+  * readInputs (void)
+  * readOutputs (void)
 
 #### Structures
 
@@ -214,6 +218,24 @@ This function will read the node 0 folder and create the neccesary structures. A
 * for i in 2-32
   * **readPin(i)**
   * delete configuration command
+
+#### writeOutputs
+
+Goes through the list of output and execute writeOutput for every item in the list.
+
+* store *firstOutput* in *_tempOutput*
+* while *_tempOutput* is not null
+  * **writeOutput** (*_tempOutput.number*)
+  * store *_tempOutput.nxt* in *_tempOutput*
+
+#### readInputs
+
+Goes through the list of input and execute readInput for every item in the list.
+
+* store *firstInput* in *_tempInput*
+* while *_tempInput* is not null
+  * **readInput** (*_tempInput.number*)
+  * store *_tempInput.nxt* in *_tempInput*
 
 #### readPin
 
@@ -276,7 +298,7 @@ Creates one output structure and configures the hardware appropietly
 * *lastOutput.PWM* = *PWM*
 * *lastOutput.PWMFrequency* = *PWMFrequency*
 
-#### readInputs
+#### readInput
 
 * Read input value
 * If TRUE
@@ -290,7 +312,7 @@ Creates one output structure and configures the hardware appropietly
   * If not in edge mode
     * Delete file TRUE  
 
-#### writeOutputs
+#### writeOutput
 
 * if PWM
   * if pwm frquency in file and struct different
