@@ -1,10 +1,10 @@
 /*
-File Name:	GPIO.c
+File Name:   GPIO.c
 //
-Compiler:	GCC
-Author:		Artic42
-Description:	In this file all the function necessary to handle the GPIO of the board will be avaible, main function will call to the differente functions.
-Testd on:	Raspberry Pi 4
+Compiler:    GCC
+Author:      Artic42
+Description: In this file all the function necessary to handle the GPIO of the board will be avaible, main function will call to the differente functions.
+Testd on:    Raspberry Pi 4
 */
 
 /****************************************
@@ -72,7 +72,7 @@ void GPIOConfigurate (void);
 
     for {int i = 2; i <= 32; i++}
     {
-        readPin (i)
+        readPin (i);
         // Eliminar flag the reconfiguración
     }
 }
