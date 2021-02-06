@@ -162,14 +162,19 @@ This section describe the code of the driver program, the code is separated in m
 Variable | Type | Description
 -- | -- | ---
 path | string | Path to the node directories
-firstInput | pointer to input |
-lastInput | pointer to input |
-firstOutput| pointer to output |
-lastOutput | pointer to output |
 
 ### GPIO
 
 In this file all the function necessary to handle the GPIO of the board will be avaible, main function will call to the differente functions.
+
+#### Private variables
+
+Variable | Type | Description
+-- | -- | ---
+firstInput | pointer to input |
+lastInput | pointer to input |
+firstOutput| pointer to output |
+lastOutput | pointer to output |
 
 The file has the following function in it.
 

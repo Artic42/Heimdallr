@@ -18,11 +18,12 @@ Testd on:	Raspberry Pi 4 B // 4Gb RAM
 *	Public Function Prototype           *
 ****************************************/
 
+void GPIOConfigurate (void);
+void writeOutputs (void);
+void readInputs (void);
+
 /****************************************
 *	Public Constants                    *
 ****************************************/
-
-#define BTRUE 1
-#define BFALSE 0
 
 #endif
