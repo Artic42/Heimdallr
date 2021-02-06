@@ -175,16 +175,16 @@ The file has the following function in it.
 
 * Public
   * GPIOConfigurate (void)
-  * writeOutputs (char GPIO)
-  * readInputs (char GPIO)
+  * writeOutputs (void)
+  * readInputs (void)
 * Private
   * readPin (char GPIO)
   * deleteInputs (void)
   * deleteOutputs (void)
   * createInput (char number, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown)
   * createOutput (char numver, bool PWM, int PWMFrequency)
-  * readInputs (void)
-  * readOutputs (void)
+  * readInputs (char GPIO)
+  * readOutputs (cha GPIO)
 
 #### Structures
 
