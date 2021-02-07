@@ -161,7 +161,7 @@ This section describe the code of the driver program, the code is separated in m
 
 Variable | Type | Description
 -- | -- | ---
-path | string | Path to the node directories
+folderPath | string | Path to the node directories
 
 ### GPIO
 
@@ -171,48 +171,48 @@ In this file all the function necessary to handle the GPIO of the board will be 
 
 Variable | Type | Description
 -- | -- | ---
-firstInput | pointer to input |
-lastInput | pointer to input |
-firstOutput| pointer to output |
-lastOutput | pointer to output |
+firstInput | pointer to input | NULL
+lastInput | pointer to input | NULL
+firstOutput| pointer to output | NULL
+lastOutput | pointer to output | NULL
 
 The file has the following function in it.
 
 * Public
-  * GPIOConfigurate (void)
-  * writeOutputs (void)
-  * readInputs (void)
+  * GPIOConfigurate (string path)
+  * writeOutputs (string path)
+  * readInputs (string path)
 * Private
-  * readPin (char GPIO)
+  * readPin (string path, char GPIO)
   * deleteInputs (void)
   * deleteOutputs (void)
-  * createInput (char number, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown)
-  * createOutput (char numver, bool PWM, int PWMFrequency)
-  * readInputs (char GPIO)
-  * readOutputs (cha GPIO)
+  * createInput (char GPIO, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown)
+  * createOutput (char GPIO, bool PWM, int PWMFrequency)
+  * readInputs (string path, char GPIO)
+  * readOutputs (string path, cha GPIO)
 
 #### Structures
 
 ##### Input
 
-Variable | Type
--- | --
-number | Character
-raisingEdge | Character
-fallingEdge | Character
-pullUpResistor | Character
-pullDownResistor | Character
-prvValue | Character
-nxt | pointer to input
+Variable | Type | Default value
+-- | -- | --
+number | Interger |
+raisingEdge | Boolean |
+fallingEdge | Boolean |
+pullUpResistor | Boolean |
+pullDownResistor | Character |
+prvValue | Character |
+nxt | pointer to input | NULL
 
 ##### Output
 
-Variables | Type
--- | --
-number | Character
-PWM | Character
-PWMFrequency | Integer
-nxt | pointer to output
+Variables | Type | Default value
+-- | -- | --
+number | Integer |
+PWM | Boolean |
+PWMFrequency | Integer |
+nxt | pointer to output | NULL
 
 #### GPIOConfigurate
 
@@ -246,7 +246,6 @@ Goes through the list of input and execute readInput for every item in the list.
 
 Read mode file and creates the necessary structures
 
-* Get path to pin folder
 * Read value of mode, and store
 * Mask mode and check if active
   * Return

@@ -14,13 +14,15 @@ Testd on:    Raspberry Pi 4 B // 4Gb RAM
 *	Include                             *
 ****************************************/
 
+#include "lib/Artic42.h"
+
 /****************************************
 *	Public Function Prototype           *
 ****************************************/
 
-void GPIOConfigurate (void);
-void writeOutputs (void);
-void readInputs (void);
+void GPIOConfigurate (string path);
+void writeOutputs (string path);
+void readInputs (string path);
 
 /****************************************
 *	Public Constants                    *

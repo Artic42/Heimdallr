@@ -6,14 +6,17 @@ Author:		 Artic42
 Description: Header were I include a series og common macros and definitions that I use in all projects
 */
 
-#ifndef GPIO_H
-#define GPIO_H
+#ifndef ARTIC42_H
+#define ARTIC42_H
 
 /**************************************
 *   Personal definitions              *
 **************************************/
+
+// Variable types
 typedef char bool;
-typedef char* string;
+typedef const char* string;
+typedef char int8b;
 
 #define BTRUE 1
 #define BFALSE 0
