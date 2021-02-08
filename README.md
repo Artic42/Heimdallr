@@ -69,24 +69,26 @@ The mode is determined by a set of 8 bit, every bit activates a different functi
 2. This bit determine if the pin is in output or input mode, output = 1.
 3. This bit activates the PWM mode when working as an output.
 4. Reserve
-5. This bit determines if the input is in edge mode. In edge mode the input will only read as one in either the falling or raising edge.
-6. This bit determines the edge mode. Raising = 1 and falling = 0.
+5. This bit determines if the input is in rising edge mode. In edge mode the input will only read as one in rising edge.
+6. This bit determines if the input is in rising edge mode. In edge mode the input will only read as one the falling edge.
 7. This bit determines the resistor mode if using it as an input. The resistor will be on pull up mode if the bit is 1. In pull down if 0.
 
 #### Valid modes
 
 Only the following modes are considered legal
-Code | Binary | Mode
---- | --- | ----
-0x00 | 0b0000 0000 | Pin deactivated
-0x40 | 0b0100 0000 | Input mode, standard reading, pull down resistor
-0x41 | 0b0100 0001 | Input mode, standard reading, pull up resistor
-0x44 | 0b0100 0100 | Input mode, falling edge reading, pull down ressitor
-0x45 | 0b0100 0101 | Input mode, falling edge reading, pull up ressitor
-0x46 | 0b0100 0110 | Input mode, rising edge reading, pull down ressitor
-0x47 | 0b0100 0111 | Input mode, rising edge reading, pull up ressitor
-0x60 | 0b0110 0000 | Output mode, standard
-0x70 | 0b0111 0000 | Output mode, PWM
+Code | Binary | Character | Mode
+--- | --- | ---- | ---
+0x08 | 0b0000 1000 | Backspace | Pin deactivated
+0x48 | 0b0100 1000 | H | Input mode, standard reading, pull down resistor
+0x49 | 0b0100 1001 | I |Input mode, standard reading, pull up resistor
+0x4A | 0b0100 1100 | J |Input mode, falling edge reading, pull down ressitor
+0x4B | 0b0100 1101 | K | Input mode, falling edge reading, pull up ressitor
+0x4C | 0b0100 1100 | L |Input mode, rising edge reading, pull down ressitor
+0x4D | 0b0100 1101 | M | Input mode, rising edge reading, pull up ressitor
+0x4E | 0b0100 1110 | N | Input mode, rising and falling edge reading, pull down ressitor
+0x4F | 0b0100 1111 | O | Input mode, rising and falling edge reading, pull up ressitor
+0x68 | 0b0110 1000 | h |Output mode, standard
+0x78 | 0b0111 1000 | x | Output mode, PWM
 
 ### Master-Slave coms
 
@@ -98,13 +100,13 @@ The methods of the different API are described here.
 
 #### C API Methods
 
-* GPIOSet (int node, int GPIO)
-* GPIOReset (int node, int GPIO)
-* GPIOToggle (int node, int GPIO)
-* GPIOWrite (int node, int GPIO, bool value)
-* bool GPIORead (int node, int GPIO)
-* GPIOSetPWMDutyCycle (int node, int GPIO, int dutyCycle)
-* GPIOSetPWMFrequency (int node, int GPIO, int dutyCycle)
+* GPIOSet (int8b node, int8b GPIO)
+* GPIOReset (int8b node, int8b GPIO)
+* GPIOToggle (int8b node, int8b GPIO)
+* GPIOWrite (int8b node, int8b GPIO, bool value)
+* bool GPIORead (int8b node, int8b GPIO)
+* GPIOSetPWMDutyCycle (int8b node, int8b GPIO, int dutyCycle)
+* GPIOSetPWMFrequency (int8b node, int8b GPIO, int frequency)
 
 ##### GPIOSet
 
@@ -161,7 +163,7 @@ This section describe the code of the driver program, the code is separated in m
 
 Variable | Type | Description
 -- | -- | ---
-folderPath | string | Path to the node directories
+folderPath | string | Path to the node directories (Part of the arguments of main)
 
 ### GPIO
 
@@ -244,14 +246,25 @@ Goes through the list of input and execute readInput for every item in the list.
 
 #### readPin
 
-Read mode file and creates the necessary structures
+Read mode file and creates the necessary structures. This are the masks necessary for read the mode file.
+
+Mask name | Binary | Hexadecimal
+-- | -- | --
+ACTIVE | 0b0100 0000 | 0x40
+OUTPUT | 0b0010 0000 | 0x20
+PWM | 0b0001 0000 | 0x10
+RISINGEDGE | 0b0000 0100 | 0x04
+FALLINGEDGE | 0b0000 0010 | 0x02
+PULLUP | 0b0000 0001| 0x01
 
 * Read value of mode, and store
 * Mask mode and check if active
   * Return
 * Check if output
+  * Set PWM flag if necessary
   * **createOutput**, setting flags according to mode
 * If input
+  * Set necessary flags
   * **createInput**, setting flags according to mode
 
 #### deleteInputs
@@ -320,7 +333,7 @@ Creates one output structure and configures the hardware appropietly
 
 * if PWM
   * if pwm frquency in file and struct different
-    * change frequency
+    * change frequency in hardware and struct
   * write dutycycle from file into hardware
 * else
   * if TRUE exists
