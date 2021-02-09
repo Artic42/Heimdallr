@@ -12,6 +12,7 @@ Testd on:    Raspberry Pi 4
 ****************************************/
 
 #include <stdlib.h>
+#include <pigpiod_if2.h>
 
 #include "GPIO.h"
 #include "lib/Artic42.h"
