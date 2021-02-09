@@ -21,16 +21,16 @@ Testd on:    Raspberry Pi 4
 *	Private Function Prtotype           *
 ****************************************/
 
-void readPin (string  path, char GPIO);
+void readPin (string  path, int8b GPIO);
 void deleteInputs (void);
 void deleteOutputs (void);
-void createInput (char GPIO, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown);
-void createOutput (char GPIO, bool PWM, int PWMFrequency);
-void readInput (string path, char GPIO);
-void writeOutput (string path, char GPIO);
+void createInput (int8b GPIO, bool risingEdge, bool fallingEdge, bool pullUp, bool pullDown);
+void createOutput (int8b GPIO, bool PWM, int PWMFrequency);
+void readInput (string path, int8b GPIO,  bool risingEdge, bool fallingEdge, bool prvValue);
+void writeOutput (string path, int8b GPIO, bool PWM, int PWMFrequency);
 
 /****************************************
-*	Private Definitions	                *
+*	Private Structures                  *
 ****************************************/
 
 struct input {
@@ -49,6 +49,17 @@ struct output {
     int PWMFrequency;
     struct output *nxt;
 };
+
+/****************************************
+*	Private Constants                   *
+****************************************/
+
+#define ACTIVE_MASK 0x40
+#define OUTPUT_MASK 0x20
+#define PWM_MASK 0x10
+#define RISINGEDGE_MASK 0x04
+#define FALLINGEDGE_MASK 0x20
+#define PULLUP_MASK 0x01
 
 /****************************************
 *	Private Variables                   *
@@ -94,7 +105,7 @@ void writeOutputs (string path)
 
     while (_tempOutput != NULL)
     {
-        writeOutput (path, _tempOutput->number);
+        writeOutput (path, _tempOutput->number, _tempOutput->PWM, _tempOutput->PWMFrequency);
         _tempOutput = _tempOutput->nxt;
     }
 }
@@ -109,7 +120,11 @@ void readInputs (string path)
 
     while (_tempInput != NULL)
     {
-        readInput (path, _tempInput->number);
+        readInput (path,
+                   _tempInput->number,
+                   _tempInput->risingEdge,
+                   _tempInput->fallingEdge,
+                   _tempInput->prvValue);
         _tempInput = _tempInput->nxt;
     }
 }
@@ -118,9 +133,38 @@ void readInputs (string path)
 //  
 //  Read mode file and creates the necessary structures.
 
-void readPin (string path, char GPIO)
+void readPin (string path, int8b GPIO)
 {
+    // Read mode and pwm frequency
+    char filePath [2048],PWMFreqPath [2048];
+    sprintf (filePath,"%s/Node00/Pin%d", path, GPIO);
+    string modePtr = file2string (filePath);
+    sprintf (PWMFreqPath,"%s/Node00/Pin%d/Frequency",path, GPIO);
+    int PWMFreq = file2int (PWMFreqPath);
 
+    // Mask mode and store it in flags
+    char mode = modePtr[0];
+    bool activeFlag, outputFlag, PWMFlag, risingEdgeFlag,
+         fallingEdgeFlag, pullUpFlag;
+    activeFlag = mode & ACTIVE_MASK;
+    outputFlag = mode & OUTPUT_MASK;
+    PWMFlag = mode & PWM_MASK;
+    risingEdgeFlag = mode & RISINGEDGE_MASK;
+    fallingEdgeFlag = mode & FALLINGEDGE_MASK;
+    pullUpFlag = mode & PULLUP_MASK;
+
+    //Create the output and set the hardware
+    if (activeFlag == 0) { return; }
+    if (outputFlag == 0)
+    { 
+        createInput( GPIO, risingEdgeFlag, fallingEdgeFlag, pullUpFlag, !pullUpFlag);
+        // Configurate HW
+    }
+    else
+    { 
+        createOutput( GPIO, PWMFlag, PWMFreq);
+        // Configurate HW
+    }
 }
 
 //  deleteInputs
@@ -216,15 +260,43 @@ void createOutput (char number, bool PWM, int PWMFrequency)
 //  readInput
 //  
 //  Reads the value of the input and changes the necessary files
-void readInput (string path, char GPIO)
+void readInput (string path, int8b GPIO, bool risingEdge, bool fallingEdge, bool prvValue)
 {
+    char valuePath [2048];
+    sprintf (valuePath, "%s/Node00/Pin%d/TRUE", path, GPIO);
     
+    if (BTRUE/*Read HW value*/)
+    {
+        if (!risingEdge && !fallingEdge || !prvValue && risingEdge) 
+        {
+            createFile (valuePath);
+        }
+    }
+    else
+    {
+        if (!risingEdge && !fallingEdge) { createFile (valuePath); }
+        if (prvValue && fallingEdge)     { deleteFile (valuePath); }
+    }
 }
 
 //  writeOutput
 //  
 //  Read the files and writes the necessary output
-void writeOutput (string path, char GPIO)
+void writeOutput (string path, char GPIO, bool PWM, int PWMFrequency)
 {
-
+    char _tempPath [2048];
+    sprintf (_tempPath,"%s/Node00/Pin%d/Frequency",path, GPIO);
+    int PWMFreq = file2int (_tempPath);
+    if (PWM)
+    {
+        if (PWMFreq != PWMFrequency) { /*Change PWM Frequency*/}
+        sprintf (_tempPath,"%s/Node00/Pin%d/dutyCycle",path, GPIO);
+        int dutyCycle = file2int (_tempPath);
+    }
+    else
+    {
+        sprintf (_tempPath,"%s/Node00/Pin%d/TRUE",path, GPIO);
+        if (file2bool (_tempPath)) { /*Activate output*/ }
+        else                       { /*Deactivate output*/ }
+    }
 }
