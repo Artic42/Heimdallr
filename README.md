@@ -143,7 +143,6 @@ This section describe the code of the driver program, the code is separated in m
 
 ### main
 
-* read path
 * if *$PATH/MASTER*
   * **nodesConfigurate**
 * **GPIOConfigurate**

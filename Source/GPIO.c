@@ -62,6 +62,8 @@ struct output {
 #define FALLINGEDGE_MASK 0x20
 #define PULLUP_MASK 0x01
 
+
+
 /****************************************
 *	Private Variables                   *
 ****************************************/
@@ -159,12 +161,21 @@ void readPin (string path, int8b GPIO)
     if (outputFlag == 0)
     { 
         createInput( GPIO, risingEdgeFlag, fallingEdgeFlag, pullUpFlag, !pullUpFlag);
-        // Configurate HW
+        gpioSetMode (GPIO, PI_INPUT);
+        if (pullUpFlag) { gpioSetPullUpDown (GPIO, PI_PUD_UP);   }
+        else            { gpioSetPullUpDown (GPIO, PI_PUD_DOWN); }
     }
     else
     { 
         createOutput( GPIO, PWMFlag, PWMFreq);
-        // Configurate HW
+        gpioSetMode (GPIO, PI_OUTPUT);
+        if (PWMFlag)
+        {
+            gpioPWM (GPIO, 0);
+            gpioSetPWMrange (GPIO, 1000);
+            gpioSetPWMfrequency (GPIO, PWMFreq);
+        }
+        
     }
 }
 
@@ -266,7 +277,7 @@ void readInput (string path, int8b GPIO, bool risingEdge, bool fallingEdge, bool
     char valuePath [2048];
     sprintf (valuePath, "%s/Node00/Pin%d/TRUE", path, GPIO);
     
-    if (BTRUE/*Read HW value*/)
+    if (gpioRead(GPIO))
     {
         if (!risingEdge && !fallingEdge || !prvValue && risingEdge) 
         {
@@ -290,14 +301,15 @@ void writeOutput (string path, char GPIO, bool PWM, int PWMFrequency)
     int PWMFreq = file2int (_tempPath);
     if (PWM)
     {
-        if (PWMFreq != PWMFrequency) { /*Change PWM Frequency*/}
+        if (PWMFreq != PWMFrequency) { gpioSetPWMfrequency (GPIO, PWMFreq);}
+        PWMFrequency = PWMFreq;
         sprintf (_tempPath,"%s/Node00/Pin%d/dutyCycle",path, GPIO);
         int dutyCycle = file2int (_tempPath);
+        gpioPWM (GPIO, dutyCycle);
     }
     else
     {
         sprintf (_tempPath,"%s/Node00/Pin%d/TRUE",path, GPIO);
-        if (file2bool (_tempPath)) { /*Activate output*/ }
-        else                       { /*Deactivate output*/ }
+        gpioWrite(GPIO, file2bool (_tempPath));
     }
 }
