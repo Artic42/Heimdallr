@@ -89,10 +89,7 @@ void GPIOConfigurate (string path)
     deleteInputs();
     deleteOutputs();
 
-    for (int8b i = 2; i <= 32; i++)
-    {
-        readPin (path, i);
-    }
+    for (int8b i = 2; i <= 32; i++) { readPin (path, i); }
 
     sprintf (buffer, "%s%s", path, "/RECONFIGURATE");
     deleteFile (buffer);
