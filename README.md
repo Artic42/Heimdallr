@@ -16,32 +16,39 @@ ATmega328P | 328-ROM01 | 2kB EEPROM memory
 
 ## Configurator
 
-There is avaible and script that takes a few json files and fills up all the necessary folder on the Pi with the configuration for every pin, and every node in the system. There will be one Json file for every node in the system, and one general file for the system itself. The general data is the same for all the system. The general file will contain the following information.
-Parameter | Data type | Description | Default
--- | -- | -- | --
-directoryPath | Path | Path to the directory were all the information will be store | /temp/heimdallr
-name | string | Name of the system
-description | string | Description of the system
-netAdress | IP | Ip adress of the master node in the system | empty
-configPath | Path | Path to the json file with the master configuration |
-nodes | array of nodes | There will be an array of nodes, with the data for every node | empty
+The configurator take an excel file filled with all the necessary information and creates all the files and script necessary for the configuration and running of heimdallr
 
-### IP data type
+* Create a master general file
+* Create ssh-key if a slave exist
+* Create folder for every pin in master
+* Create files with the conf of each slave
+  * Create the conf file for chain, both local with all the output, and remote with all the inputs.
+  * Create an image to be burn in the sd card of the slave
+  * Create the folder for every pin in the slaves
+* Create the reconfigurate file
 
-Parameter | Data type | Description | Default
--- | -- | -- | --
-adress | adress | The ip of the master node | empty
-subnetmask | adress | The subnet mask of the system network | 255.255.255.0
+### Variables
 
-### nodes data type
+The following list will be read from the excel file to be used in the creation of the files by the program.
 
-Parameter | Data type | Description | Default
--- | -- | -- | --
-number | integer | the number of the node 1 to 99 |
-name | string | name of the node only for information |
-description | string | description of the node |
-netAdress | IP | IP adress of the node |
-configPath | Path | Path to the json file with the node configuration |
+#### masterPins
+
+Varaible name | Type
+-- | --
+GPIONumber  | Integer
+output | Boolean
+PWM | Boolean
+risingEdge | Boolean
+fallingEdge | Boolean
+pullUpResistor | Boolean
+
+#### slaves
+
+Variable name | Substructure | Type
+-- | -- | --
+slaveNumber | no  | Integer
+ipAdress | no | ipadress
+slavePins | yes | masterPins
 
 ## File Structure
 
@@ -106,7 +113,9 @@ The methods of the different API are described here.
 * GPIOWrite (int8b node, int8b GPIO, bool value)
 * bool GPIORead (int8b node, int8b GPIO)
 * GPIOSetPWMDutyCycle (int8b node, int8b GPIO, int dutyCycle)
+* int GPIOGetPWMDutyCycle (int8b node, int8b GPIO)
 * GPIOSetPWMFrequency (int8b node, int8b GPIO, int frequency)
+* int GPIOGetPWMFrequency (int8b node, int8b GPIO, int frequency)
 
 ##### GPIOSet
 
@@ -128,9 +137,21 @@ This function writes the value on the GPIO pin.
 
 This fucntion return a 1 if the pin was HIGH.
 
-##### GPIOSetPWMValue
+##### GPIOSetPWMDutyCycle
 
 This function changes the duty cycle of the PWM signal on the pin.
+
+##### GPIOGetPWMDutyCycle
+
+This function reads the duty cycle of the PWM signal on the pin.
+
+##### GPIOSetPWMFrequency
+
+This function changes the frequency of the PWM signal on the pin.
+
+##### GPIOGetPWMFrequency
+
+This function reads the frequency of the PWM signal on the pin.
 
 ## Driver code
 
