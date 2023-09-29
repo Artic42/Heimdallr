@@ -1,0 +1,43 @@
+#colors {
+--caf-noir: #3B2C15ff;
+--spanish-orange: #DF681Eff;
+--night: #171416ff;
+--hunyadi-yellow: #E6AD42ff;
+--walnut-brown: #5B5044ff;
+}
+
+#Title {
+    font-size: 110px;
+    font-weight: bold;
+    color:  #E6AD42ff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#Subtitle {
+    font-size: 30px;
+    font-weight: bold;
+    color:  #E6AD42ff;
+    background-color: #5B5044ff;
+    margin-top: 5px;
+    margin-bottom: 100px;
+}
+
+.menuButton {
+    font-size: medium;
+    font-weight: bold;
+    width: 170px;
+    height: 200px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+body{
+    background-color:  #171416ff;
+    text-align: center;
+}
+
+a{
+    color: inherit; 
+    text-decoration: inherit;
+}
