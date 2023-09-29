@@ -1,4 +1,5 @@
-FROM httpd
+FROM nginx:alpine
+COPY web /usr/share/nginx/html
 
-COPY web /var/www/html
-
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
