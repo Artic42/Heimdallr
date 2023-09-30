@@ -1,0 +1,2 @@
+docker stop heimdallrWebApp
+docker remove heimdallrWebApp
