@@ -6,7 +6,7 @@
 --walnut-brown: #5B5044ff;
 }
 
-#Title {
+.title {
     font-size: 110px;
     font-weight: bold;
     color:  #E6AD42ff;

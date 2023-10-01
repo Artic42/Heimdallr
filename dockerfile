@@ -15,7 +15,6 @@ RUN apk add py3-pip
 
 # Copy files from repository to container
 COPY web /usr/share/nginx/html
-COPY php /usr/share/nginx/php
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
