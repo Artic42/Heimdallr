@@ -2,7 +2,6 @@ FROM nginx:alpine-slim
 
 # Delete default page and create necessary directories
 RUN rm -rf /usr/share/nginx/html/*
-RUN mkdir /usr/share/nginx/backend
 
 # Install php and necessary packages
 RUN apk add php
