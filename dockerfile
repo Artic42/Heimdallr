@@ -13,9 +13,8 @@ RUN pip3 install uvicorn
 COPY web /usr/share/nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN python3 /usr/share/nginx/python/API.py&
-
-
+# Expose port 80 and run start.sh
 EXPOSE 80
-CMD ["/usr/share/nginx/start.sh"]
+EXPOSE 8000
+CMD ["/usr/share/nginx/startWebServer.sh"]
 
