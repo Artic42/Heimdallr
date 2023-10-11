@@ -18,3 +18,13 @@ pip install colorama
 # Required by project
 pip install uvicorn
 pip install fastapi
+
+# Install nginx web server and add current web page
+sudo apk add nginx
+sudo cp /workspaces/Heimdallr/nginx.conf /etc/nginx/nginx.conf
+sudo cp -r /workspaces/Heimdallr/web/* /usr/share/nginx/
+sudo chown -R nginx:nginx /usr/share/nginx
+sudo nginx
+
+# Copy the new bash rc
+cp /workspaces/Heimdallr/.devcontainer/bashrc /home/vscode/.bashrc

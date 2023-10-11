@@ -1,3 +1,0 @@
-docker stop heimdallrWebApp
-docker remove heimdallrWebApp
-docker rmi heimdallr_image

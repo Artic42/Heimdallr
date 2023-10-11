@@ -1,0 +1,1 @@
+sudo cp -r /workspaces/Heimdallr/web/* /usr/share/nginx/

@@ -10,15 +10,17 @@
 
 	// Configure tool-specific properties.
 	// "customizations": {},
+	"runArgs": ["--name", "heimdallrWebApp"],
 
 	// Set enviroment variables
 	"containerEnv": {"PYTHONPATH": "/pythonLib"},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [80, 8000],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sh /workspaces/Heimdallr/.devcontainer/containerCreation.sh"
+	"postCreateCommand": "sh /workspaces/Heimdallr/.devcontainer/containerCreation.sh",
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"remoteUser": "vscode"
 }
