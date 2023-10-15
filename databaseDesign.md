@@ -37,6 +37,8 @@ Column | Data type | Description
 -- | -- | -- | --
 pinNumber | Integer | Pin number it corresponds to rapsbrrey pi GPIOX number
 node | Integer | Node of the pin, identifier is node number
+pinName | String | False | Name of the pin, _only visible in configurator_
+pinDescription | String | False | Description of the pin, _only visible in configurator_
 direction | Integer | Integer value representing the direction of the pin, see below
 pullResistor | Integer | Integer value representing the mode of the pull resistor, see below
 PWM | Integer | Frequency of the PWM if in output mode. 0 will disable the PWM

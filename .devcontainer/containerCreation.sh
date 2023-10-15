@@ -7,7 +7,7 @@ sudo apk add npm
 sudo mkdir /pythonLib
 sudo chown vscode:vscode /pythonLib
 cd /pythonLib
-wget https://github.com/Artic42/pythonLib/releases/download/arun-v0.1/pythonLib-arun.tar
+wget https://github.com/Artic42/pythonLib/releases/download/BigHorn-v0.2/pythonLib-bighorn0.2.tar
 tar xvf *.tar
 rm -f *.tar
 
@@ -18,6 +18,10 @@ pip install colorama
 # Required by project
 pip install uvicorn
 pip install fastapi
+
+# Create folder needed inside the container
+sudo mkdir /databases
+sudo chown vscode:vscode /databases
 
 # Install nginx web server and add current web page
 sudo apk add nginx

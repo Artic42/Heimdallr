@@ -1,0 +1,23 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "192.168.11.175",
+            "port": 3306,
+            "driver": "MariaDB",
+            "name": "Bank",
+            "database": "bank",
+            "username": "lrnsql",
+            "password": "overlord"
+        },
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "testDatabase",
+            "database": "databases/active.sqlite"
+        }
+    ]
+}
