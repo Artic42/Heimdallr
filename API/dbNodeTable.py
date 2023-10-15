@@ -63,8 +63,9 @@ class nodeTableInterface:
         
     def listOfNodes(self):
         DB = sqliteEngine.sqliteEngine(self.path)
-        nodes = DB.readEntry("nodes", "nodeNumber")[0]
+        nodes = DB.readEntry("nodes", "nodeNumber")
         DB.commitClose()
+        nodes = [int(i[0]) for i in nodes]
         log.addEntry(f"List of nodes read as {nodes}")
         return nodes
     

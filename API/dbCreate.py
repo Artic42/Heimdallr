@@ -25,7 +25,7 @@ def createNodesTable():
 
 def createPinsTable():
     database.createTable("pins",
-                         "pinNumber INTEGER UNIQUE PRIMARY KEY, node INTEGER, pinName TEXT, pinDescription TEXT, direction INTEGER, PWM INTEGER, edgeMode INTEGER, FOREIGN KEY(node) REFERENCES nodes(nodeNumber)")
+                         "pinNumber INTEGER PRIMARY KEY, node INTEGER, active INTEGER, pinName TEXT, pinDescription TEXT, direction INTEGER, PWM INTEGER, edgeMode INTEGER, FOREIGN KEY(node) REFERENCES nodes(nodeNumber)")
                          
 
 if __name__ == "__main__":

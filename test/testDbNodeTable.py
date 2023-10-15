@@ -1,6 +1,5 @@
 from testEngine import test
 import articFileUtils as fileUtils
-import sqliteEngine
 import dbCreate
 from dbNodeTable import nodeTableInterface
 
@@ -18,7 +17,9 @@ def runScenario1():
     test14()
     test15()
     test16()
+    test17()
     test.endScenario("Create database and check writing the parameters")
+    
     
 def createAndLoadTestDatabase():
     dbCreate.createDatabase(path="/databases/test.sqlite")
@@ -52,6 +53,13 @@ def test16():
     test.testIfEqual("Test node", result["nodeName"], "Node name read successfully")
     test.testIfEqual("Test node description", result["nodeDescription"], "Node description read successfully")
     test.testIfEqual([1,2,3,4,5,6,7,8,9,10], result["activePins"], "Node active pins read successfully")
+    
+def test17():
+    testParameterTable.createNode(2)
+    test.testIfEqual([1,2], testParameterTable.listOfNodes(), "List of nodes read successfully")
+    testParameterTable.deleteNode(2)
+    test.testIfEqual([1], testParameterTable.listOfNodes(), "Node deleted successfully")
+    
 
 if __name__ == "__main__":
     runTest()
