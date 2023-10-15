@@ -7,7 +7,7 @@ sudo apk add npm
 sudo mkdir /pythonLib
 sudo chown vscode:vscode /pythonLib
 cd /pythonLib
-wget https://github.com/Artic42/pythonLib/releases/download/BigHorn-v0.2/pythonLib-bighorn0.2.tar
+wget https://github.com/Artic42/pythonLib/releases/download/BigHorn-v0.2.1/pythonLib-BigHorn.0.2.1.tar
 tar xvf *.tar
 rm -f *.tar
 
