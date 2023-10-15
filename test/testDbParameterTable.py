@@ -1,6 +1,5 @@
 from testEngine import test
 import articFileUtils as fileUtils
-import sqliteEngine
 import dbCreate
 from dbParameterTable import parameterTableInterface
 
